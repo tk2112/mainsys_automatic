@@ -37,35 +37,50 @@ class MyWebDriver:
         self.password = self.jsonLoad['pass']
         self.currentDir = currentDir
         self.sessionId = sessionId
-
+        self.islogin = False
+        self.__webd = None
+        
     # webDriverを返す
     def getWebd(self):
         return webdriver.Chrome(service = self.__cs, options = self.__chromeOptions)
 
+    def quit(self):
+        if self.__webd:
+            self.__webd.quit()
+
     # ログインしてwebDriverを返す
     def login(self):
-        webd = webdriver.Chrome(service = self.__cs, options = self.__chromeOptions)
+        if not self.islogin:
+            try:
+                webd = webdriver.Chrome(service = self.__cs, options = self.__chromeOptions)
 
-        webd.get(self.rootUrl)
+                webd.get(self.rootUrl)
 
-        # ID/PASSを打ち込みログイン
-        time.sleep(3)
-        webd.find_element(By.XPATH, '//*[@id="userid"]').send_keys(self.id, Keys.ENTER)
-        webd.find_element(By.XPATH, '//*[@id="password"]').send_keys(self.password, Keys.ENTER)
+                # ID/PASSを打ち込みログイン
+                time.sleep(3)
+                webd.find_element(By.XPATH, '//*[@id="userid"]').send_keys(self.id, Keys.ENTER)
+                webd.find_element(By.XPATH, '//*[@id="password"]').send_keys(self.password, Keys.ENTER)
 
-        time.sleep(1)
+                time.sleep(1)
 
-        return webd
+                self.islogin = True
+                self.__webd = webd
+
+            except:
+                print('ERROR: Not Cannot Login WebDriver.')
+
+                return None
+
+        return self.__webd
 
     # キューメッセージ作成
     def makeQueue(self, isSuccess = False):
+        if not self.sessionId:
+            return
+
         userDir = os.environ['USERPROFILE']
         tempDir = userDir + r'\AppData\Local\Temp' + '\\'
-
-        if len(self.sessionId) > 0:
-            queueFullpath = tempDir + os.path.basename(__file__) + '.' + self.sessionId + r'.tmp'
-        else:
-            queueFullpath = tempDir + os.path.basename(__file__) + r'.tmp'
+        queueFullpath = tempDir + os.path.basename(__file__) + '.' + self.sessionId + r'.tmp'
         queue = open(queueFullpath, 'w')
 
         if isSuccess:
