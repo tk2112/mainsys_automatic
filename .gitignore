@@ -1,3 +1,8 @@
-/ini/
+/ini/*
 /.env/
-/__pycache__/
+*__pycache__/
+/myseino/*
+/build/
+/dist/
+main.exe
+main.spec
