@@ -5,8 +5,8 @@ from modules.automatic.myWebDriver import MyWebDriver
 import sys
 import os
 import re
-import const
-import gui
+import modules.const as const
+import modules.gui as gui
 
 const.VERSION = '1.0.0'
 
@@ -44,6 +44,8 @@ if len(args) > 1:
 
     if flgShipmentNoSet:
         objMyWebDriver.setShipmentNo()
+
+    objMyWebDriver.quit()
         
 else:
     gui.run()
