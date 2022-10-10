@@ -2,11 +2,11 @@
 # py -m pip install pyinstaller
 
 from modules.automatic.myWebDriver import MyWebDriver
+from modules.gui import MyGui
 import sys
 import os
 import re
 import modules.const as const
-import modules.gui as gui
 
 const.VERSION = '1.0.0'
 
@@ -48,4 +48,5 @@ if len(args) > 1:
     objMyWebDriver.quit()
         
 else:
+    gui = MyGui(currentDir, downloadDir)
     gui.run()

@@ -2,7 +2,7 @@ from modules.automatic.mainSysAuto import MainSysAuto
 import time
 import glob
 import csv
-import const
+import modules.const as const
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 

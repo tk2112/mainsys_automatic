@@ -1,22 +1,53 @@
+from modules.automatic.myWebDriver import MyWebDriver
 from tkinter import *
 from tkinter import ttk
+import sys
 
-def run():
-    #終了処理
-    def Quit():
-        root.quit()
-        root.destroy()
+class MyGui:
+    def __init__(self, currentDir, downloadDir=None):
+        self.__currentDir = currentDir
+        self.__downloadDir = downloadDir
 
-    root = Tk() #Tkオブジェクト生成
-    root.title("RPA") #GUIのタイトル名の決定
-    #root.geometry("300x300") #画面の大きさの決定
+    def handler(self, funcName):
+        objMyWebDriver = MyWebDriver(0, self.__currentDir, self.__downloadDir)
+        eval('objMyWebDriver.' + funcName)()
+        objMyWebDriver.quit()
 
-    # ウィジェットの作成
-    frame1 = ttk.Frame(root, padding=16)
-    label1 = ttk.Label(frame1, text='Your name')
+    def getShipmentInfo(self):
+        self.handler(sys._getframe().f_code.co_name)
 
-    # レイアウト
-    frame1.pack()
-    label1.pack(side=LEFT)
+    def setShipmentNo(self):
+        self.handler(sys._getframe().f_code.co_name)
 
-    root.mainloop() #イベントループ
+    def run(self):
+        # Tkオブジェクト生成
+        root = Tk()
+        # タイトル
+        root.title("RPA")
+        # 画面の大きさの決定
+        root.geometry("300x200+0+0")
+        # ウィジェットの作成
+        #frame1 = ttk.Frame(root)
+        Static1 = ttk.Label(
+            #frame1, 
+            text='実行したいRPA処理をクリックして下さい')
+        button1 = ttk.Button(
+            #frame1,
+            text='出荷情報抽出', 
+            command=self.getShipmentInfo,
+            width=20, 
+            padding=5)
+        button2 = ttk.Button(
+            #frame1,
+            text='運送伝票番号登録', 
+            command=self.setShipmentNo,
+            width=20, 
+            padding=5)
+
+        # レイアウト
+        #frame1.pack()
+        Static1.pack(side = TOP, pady = (10, 0))
+        button1.pack(side = TOP, pady = (10, 0))
+        button2.pack(side = TOP, pady = 10)
+
+        root.mainloop() #イベントループ
