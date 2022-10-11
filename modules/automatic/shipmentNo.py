@@ -2,6 +2,7 @@ from modules.automatic.mainSysAuto import MainSysAuto
 import time
 import glob
 import csv
+import os
 import modules.const as const
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -23,12 +24,16 @@ class ShipmentNo(MainSysAuto):
 
             for file in fileList:
                 with open(file, 'r') as fOrigin:
-                    swapReadings = fOrigin.read().split('\n') # ファイル全体を読込、改行ごとに分割
+                    # ファイル全体を読込、改行ごとに分割
+                    swapReadings = fOrigin.read().split('\n')
 
-                    for n in range(1, len(swapReadings) - 1): # マイセイノーの最後の行は改行のみ空行なので、これを避ける
+                    # マイセイノーの最後の行は改行のみ空行なので、これを避ける
+                    for n in range(1, len(swapReadings) - 1): 
                         fSwap.write(swapReadings[n] + '\n')
 
-        with open(myseinoFulldir + '\swap.csv' ,'r') as fSwap:
+        swapCsv = myseinoFulldir + '\swap.csv'
+
+        with open(swapCsv ,'r') as fSwap:
             f = csv.reader(fSwap, delimiter=",", doublequote=True, lineterminator="\n", quotechar='"', skipinitialspace=True)
 
             for row in f:
@@ -39,3 +44,27 @@ class ShipmentNo(MainSysAuto):
 
                 if not currentControlNo in shipmentNoDics:
                     shipmentNoDics[currentControlNo] = currentShipmentNo
+
+        # Webドライバーを介してログイン
+        webd = self.myWebDriver.login()
+
+        try:
+            for key, value in shipmentNoDics.items():
+                currentUrl = self.myWebDriver.jsonLoad['urlProductInfoDetal'] + key
+                webd.get(currentUrl)
+                time.sleep(4)
+                # クリック：編集ボタン：編集可
+                webd.find_element(By.XPATH, '/html/body/div[1]/div/div[1]/button[1]').click()
+                # 入力：運送伝票番号
+                webd.find_element(By.XPATH, '//*[@id="infoBean.shippingReportNo"]').clear()
+                time.sleep(1)
+                webd.find_element(By.XPATH, '//*[@id="infoBean.shippingReportNo"]').send_keys(value)
+                # クリック：保存ボタン
+                webd.find_element(By.XPATH, '//*[@id="cpbtnSave"]').click()
+                time.sleep(6)
+
+        except:
+            self.myWebDriver.makeQueue(False)
+            
+        self.myWebDriver.makeQueue(True)
+        os.remove(swapCsv)
