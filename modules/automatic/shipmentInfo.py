@@ -14,7 +14,7 @@ class ShipmentInfo(MainSysAuto):
 
         # 製品情報一覧から情報取得
         try:
-            webd.get(self.myWebDriver.jsonLoad['productUrl'])
+            webd.get(self.myWebDriver.jsonLoad['urlProductControlList'])
             time.sleep(4)
             webd.find_element(By.XPATH, '//*[@id="processCompleteFlg1"]').click()
             webd.find_element(By.XPATH, '//*[@id="assemblePlaceList"]').click()

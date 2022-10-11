@@ -1,5 +1,6 @@
 # py -m pip install selenium
 # py -m pip install pyinstaller
+# https://chromedriver.chromium.org/downloads -> bin/
 
 from modules.automatic.myWebDriver import MyWebDriver
 from modules.gui import MyGui

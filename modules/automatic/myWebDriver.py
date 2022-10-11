@@ -5,12 +5,14 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome import service as chrome_service
+from subprocess import CREATE_NO_WINDOW
 
 class MyWebDriver:
     def __init__(self, sessionId, currentDir, downloadDir=None):
         # chromeを立ち上げる
         executablePath = currentDir + r'\bin\chromedriver.exe'
         self.__cs = chrome_service.Service(executablePath)
+        self.__cs.creationflags = CREATE_NO_WINDOW
         # Chromeのオプション設定
         self.__chromeOptions = webdriver.ChromeOptions()
         # ターミナルが出すエラーメッセージを消す
