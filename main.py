@@ -9,7 +9,7 @@ import os
 import re
 import modules.const as const
 
-const.VERSION = '1.0.0'
+const.VERSION = '1.1.0'
 
 sessionId = ''
 
@@ -49,5 +49,5 @@ if len(args) > 1:
     objMyWebDriver.quit()
         
 else:
-    gui = MyGui(currentDir, downloadDir)
+    gui = MyGui(const.VERSION, currentDir, downloadDir)
     gui.run()
