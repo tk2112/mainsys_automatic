@@ -4,9 +4,10 @@ from tkinter import ttk
 import sys
 
 class MyGui:
-    def __init__(self, currentDir, downloadDir=None):
+    def __init__(self, version, currentDir, downloadDir=None):
         self.__currentDir = currentDir
         self.__downloadDir = downloadDir
+        self.__version = version
 
     def handler(self, funcName):
         objMyWebDriver = MyWebDriver(0, self.__currentDir, self.__downloadDir)
@@ -23,7 +24,7 @@ class MyGui:
         # Tkオブジェクト生成
         root = Tk()
         # タイトル
-        root.title("RPA")
+        root.title("RPA ver:" + self.__version)
         # 画面の大きさの決定
         root.geometry("300x200+0+0")
         # ウィジェットの作成
