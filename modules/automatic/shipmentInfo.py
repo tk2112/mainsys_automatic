@@ -16,7 +16,7 @@ class ShipmentInfo(MainSysAuto):
         try:
             webd.get(self.myWebDriver.jsonLoad['urlProductControlList'])
             time.sleep(4)
-            webd.find_element(By.XPATH, '//*[@id="processCompleteFlg1"]').click()
+            webd.find_element(By.XPATH, '//*[@id="processCompleteFlg1"]').click() # 処理完了区分 : 未完了
             webd.find_element(By.XPATH, '//*[@id="assemblePlaceList"]').click()
 
             time.sleep(1)
