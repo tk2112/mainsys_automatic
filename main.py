@@ -15,10 +15,13 @@ sessionId = ''
 
 flgShipmentInfo = False
 flgShipmentNoSet = False
+flgStoreOverseasWithSvrDatabase = False
+flgRunOverseasShipmentForVBA = False
 
 args = sys.argv
 scriptFullpath = os.path.abspath(args[0])
 currentDir = os.path.dirname(scriptFullpath)
+sessionId = None
 downloadDir = None
 
 if len(args) > 1:
@@ -38,13 +41,25 @@ if len(args) > 1:
         elif arg == 'setShipmentNo':
             flgShipmentNoSet = True
 
-    objMyWebDriver = MyWebDriver(sessionId, currentDir, downloadDir)
+        elif arg == 'storeOverseasWithSvrDatabase':
+            flgStoreOverseasWithSvrDatabase = True
+
+        elif arg == 'runOverseasShipmentForVBA':
+            flgRunOverseasShipmentForVBA = True
+
+    objMyWebDriver = MyWebDriver(currentDir, sessionId, downloadDir)
 
     if flgShipmentInfo:
         objMyWebDriver.getShipmentInfo()
 
     if flgShipmentNoSet:
         objMyWebDriver.setShipmentNo()
+
+    if flgStoreOverseasWithSvrDatabase:
+        objMyWebDriver.storeOverseasWithSvrDatabase()
+
+    if flgRunOverseasShipmentForVBA:
+        objMyWebDriver.runOverseasShipmentForVBA()
 
     objMyWebDriver.quit()
         

@@ -69,7 +69,7 @@ class ShipmentNo(MainSysAuto):
 
         try:
             for key, value in shipmentNoDics.items():
-                currentUrl = self.myWebDriver.jsonLoad['urlProductInfoDetal'] + key
+                currentUrl = self.myWebDriver.jsonLoad['urlProductInfoDetail'] + key
                 webd.get(currentUrl)
                 time.sleep(4)
                 # クリック：編集ボタン：編集可

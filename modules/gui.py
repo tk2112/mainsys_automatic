@@ -9,6 +9,7 @@ class MyGui:
         self.__downloadDir = downloadDir
         self.__version = version
 
+    # 引数メソッド名をコールバックとして呼び出す
     def handler(self, funcName):
         objMyWebDriver = MyWebDriver(0, self.__currentDir, self.__downloadDir)
         eval('objMyWebDriver.' + funcName)()
